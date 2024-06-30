@@ -83,15 +83,15 @@ const calcDisplayBalance = function(movements){
 };
 
 
-const calcDisplaySummary = function(movements){
-  const incomes = movements.filter(mov => mov>0).reduce((acc, mov) => acc + mov, 0);
+const calcDisplaySummary = function(acc){
+  const incomes = acc.movements.filter(mov => mov>0).reduce((acc, mov) => acc + mov, 0);
 
   labelSumIn.textContent = `${incomes} €`
 
-  const out = movements.filter(mov => mov < 0).reduce((acc, mov) => acc + mov, 0);
+  const out = acc.movements.filter(mov => mov < 0).reduce((acc, mov) => acc + mov, 0);
   labelSumOut.textContent = `${Math.abs(out)} €`;
 
-  const interest = movements.filter(mov => mov > 0).map(deposit => deposit * 1.2/100).filter((int, i, arr) => int >= 1).reduce((acc, int) => acc+int, 0);
+  const interest = acc.movements.filter(mov => mov > 0).map(deposit => deposit * acc.interestRate/100).filter((int, i, arr) => int >= 1).reduce((acc, int) => acc+int, 0);
   labelSumInterest.textContent = `${interest} €`;
 };
 
@@ -133,7 +133,7 @@ btnLogin.addEventListener('click', function(e){
 
 
     // display summary
-    calcDisplaySummary(currentAccount.movements);
+    calcDisplaySummary(currentAccount);
     
   }
 });
