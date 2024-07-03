@@ -177,3 +177,20 @@ btnClose.addEventListener('click', function(e){
   inputCloseUsername.value = inputClosePin.value = '';
 
 });
+
+btnLoan.addEventListener('click', function(e){
+  e.preventDefault();
+
+  const amount = Number(inputLoanAmount.value);
+
+  if(amount>0 && currentAccount.movements.some(mov => mov >= amount*0.1)){  //should have one deposit which is >= to the 10% of loan amount
+
+    //add the movement
+    currentAccount.movements.push(amount);
+
+    //update ui
+    updateUI(currentAccount);
+  }
+
+  inputLoanAmount.value = '';
+})
